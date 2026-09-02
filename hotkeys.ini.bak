@@ -1,0 +1,82 @@
+﻿; ============================================================
+;  WinHotKey-AHK — 快捷键配置文件 (hotkeys.ini)
+;  每个 [小节] 定义一条快捷键, 小节名随意(建议用有含义的名字)。
+;
+;  可用字段:
+;    hotkey   必填  触发按键。 友好写法 Win+Ctrl+B  或原生写法 #^b
+;    action   必填  动作类型: run | open | folder | type | window | app | overview
+;    target   必填  动作内容(含义随 action 而定, 也接受惯用别名,
+;                    见 README.md 各动作的字段对照表; overview 动作不需要)
+;    title    可选  窗口标题/条件, type / window / app 动作使用
+;    desc     可选  说明文字, 显示在托盘菜单里
+;
+;  注意:
+;    * 整行以 ; 或 # 开头是注释; 不支持行尾注释。
+;    * 修改保存后: 托盘图标右键 -> “重载配置”, 立即生效, 无需重启。
+;    * 建议全部用 Win 键组合(如 Win+Ctrl+X), 避免与其他软件冲突。
+;    * 上档字符按键: Alt+? 会按 Alt+Shift+/ (问号位于 / 键) 解析注册。
+; ============================================================
+
+[示例-启动程序-记事本]
+hotkey = Win+Ctrl+B
+action = run
+target = notepad.exe
+desc = 启动记事本
+
+[示例-启动程序-带参数]
+; run 动作启动程序时可带命令行参数;
+; 路径含空格时必须用双引号包住 exe 路径本身, 参数放在引号外。
+hotkey = Win+Ctrl+G
+action = run
+target = "C:\Windows\System32\notepad.exe" "C:\Users\Public\Documents\notes.txt"
+desc = 用记事本打开 notes.txt
+
+[示例-打开网址]
+; open 动作打开文档/URL: 是网址则不自动加引号, 是本地文件则自动加引号。
+hotkey = Win+Ctrl+D
+action = open
+target = https://www.autohotkey.com
+desc = 用默认浏览器打开网址
+
+[示例-打开文件夹]
+hotkey = Win+Ctrl+E
+action = folder
+target = C:\Users\Public
+desc = 打开文件夹
+
+[示例-输入文本]
+; type 动作把 target 原样输入到当前活动窗口(或先激活 title 指定窗口)。
+hotkey = Win+Ctrl+U
+action = type
+target = WinHotKey-AHK by AutoHotkey v2
+desc = 输入一段示例文本
+
+[示例-记事本窗口置顶]
+; window 动作的 target 是操作名, title 限定操作哪个窗口, 留空则作用到活动窗口。
+hotkey = Win+Ctrl+T
+action = window
+target = topmost
+title = ahk_exe notepad.exe
+desc = 切换记事本窗口置顶
+
+[示例-最小化当前窗口]
+hotkey = Win+Ctrl+M
+action = window
+target = minimize
+desc = 最小化当前活动窗口
+
+[示例-启动并唤起 Chrome]
+; app 动作 = 一键循环切换某应用：未运行则启动; 最小化则还原;
+; 被其它窗口遮住则放到最前; 已经在前台则最小化(再按一下切走)。
+hotkey = Alt+C
+action = app
+target = chrome.exe
+title = ahk_exe chrome.exe
+desc = 启动 / 唤起 Chrome
+
+[示例-快捷键总览]
+; overview 动作 = 弹出"快捷键总览"画布(居中略偏下), 列出全部已设快捷键。
+; 注意: Alt+? 实际对应 Alt+Shift+/ (问号在 / 键上, 需按 Shift)。
+hotkey = Alt+?
+action = overview
+desc = 弹出已设置快捷键列表
